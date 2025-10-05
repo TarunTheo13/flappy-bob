@@ -1,0 +1,24 @@
+{
+    "gravity": 0.5,
+    "jump_strength": -8,
+    "obstacle_speed": 3,
+    "obstacle_gap": 200,
+    "obstacle_interval": 2000,
+    "levels": [
+        {
+            "name": "Easy",
+            "obstacle_speed": 2,
+            "obstacle_interval": 2500
+        },
+        {
+            "name": "Medium",
+            "obstacle_speed": 3,
+            "obstacle_interval": 2000
+        },
+        {
+            "name": "Hard",
+            "obstacle_speed": 4,
+            "obstacle_interval": 1500
+        }
+    ]
+}
