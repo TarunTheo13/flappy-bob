@@ -51,10 +51,9 @@ class FlappyBob:
         original_pylon = pygame.image.load(str(pylon_path))
         original_width, original_height = original_pylon.get_size()
         
-        # Scale pylons to screen height while maintaining width proportion
-        desired_width = 100  # Decreased from 120 to 100
-        self.pylon_img = pygame.transform.scale(original_pylon, (desired_width, SCREEN_HEIGHT))
-        self.pylon_height = SCREEN_HEIGHT  # Store height for calculations
+        # Store original pylon for proper scaling
+        self.pylon_img = original_pylon
+        self.pylon_width = 100  # Desired width for pylons
 
         # Load sounds
         self.flap_sound = pygame.mixer.Sound(str(self.assets_dir / "sounds" / "flap.mp3"))
@@ -226,14 +225,16 @@ class FlappyBob:
         # Draw obstacles
         for obstacle in self.obstacles:
             # Top obstacle - clip it to the gap
-            top_pylon = pygame.Surface((100, obstacle["top_height"]))
-            top_pylon.blit(self.pylon_img, (0, 0))
+            top_pylon = pygame.Surface((100, obstacle["top_height"]), pygame.SRCALPHA)
+            scaled_pylon = pygame.transform.scale(self.pylon_img, (100, obstacle["top_height"]))
+            top_pylon.blit(scaled_pylon, (0, 0))
             self.screen.blit(pygame.transform.flip(top_pylon, False, True), (obstacle["x"], 0))
             
             # Bottom obstacle - start from the gap
             bottom_height = SCREEN_HEIGHT - (obstacle["top_height"] + self.config["obstacle_gap"])
-            bottom_pylon = pygame.Surface((100, bottom_height))
-            bottom_pylon.blit(self.pylon_img, (0, 0))
+            bottom_pylon = pygame.Surface((100, bottom_height), pygame.SRCALPHA)
+            scaled_bottom = pygame.transform.scale(self.pylon_img, (100, bottom_height))
+            bottom_pylon.blit(scaled_bottom, (0, 0))
             self.screen.blit(bottom_pylon, (obstacle["x"], obstacle["top_height"] + self.config["obstacle_gap"]))
         
         # Draw player
